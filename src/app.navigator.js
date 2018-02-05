@@ -1,7 +1,11 @@
 import React from 'react';
-import { DrawerNavigator } from 'react-navigation';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import Post from './components/Post';
 import Mentions from './components/Mentions';
+import {
+  Button,
+  Icon
+} from 'native-base';
 
 const PostScreen = {
   screen: Post,
@@ -13,6 +17,15 @@ const PostScreen = {
   }
 }
 
+const MenuButton = ({navigate}) => (
+  <Button transparent 
+    onPress={() => {
+      navigate('DrawerOpen')
+    }}>
+    <Icon style={{color: "#fff"}} size={28} name="menu"/>
+  </Button>
+)
+
 const MentionsScreen = {
   screen: Mentions,
   navigationOptions: {
@@ -23,13 +36,36 @@ const MentionsScreen = {
   }
 }
 
+const RootScreen = {
+  screen: Post,
+  navigationOptions: {
+    headerMode: 'screen',
+    headerTitle: 'Mentions App',
+    drawerLabel: 'Mentions App'
+
+  }
+}
+
+const MatchStack = StackNavigator({
+  Root: RootScreen,
+  Mentions: MentionsScreen,
+  Post: PostScreen
+},{
+  navigationOptions: ({navigation, HeaderProps}) => ({
+    headerLeft: <MenuButton navigate={navigation.navigate}/>,
+    headerStyle: { backgroundColor: "#000"},
+    headerTintColor: "#fff"
+  }) 
+})
+
 const RouteConfig = {
-  initialRoute: 'PostScreen'
+  initialRoute: 'Root'
 }
 
 const AppNavigator = DrawerNavigator({
-  Post: PostScreen,
-  Mentions: MentionsScreen
+  Root: {screen: MatchStack},
+  Mentions: MentionsScreen,
+  Post:PostScreen
 }, RouteConfig);
 
 export default AppNavigator;
