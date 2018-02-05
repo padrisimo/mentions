@@ -6,10 +6,17 @@ import { fetchUsers } from '../actions';
 
 
 class Post extends Component {
+  state = { text: ''}
+
   componentWillMount = () => {
     if (!this.props.isfetched) {
       this.props.fetchUsers();
     }
+  }
+
+  observeMentions(text){
+    console.log(text)
+    this.setState({ text })
   }
 
   render() {
@@ -21,10 +28,12 @@ class Post extends Component {
       <Container>
         <Content style={{ marginLeft: 10, marginRight: 10 }}>
           <Form>
-            <Item regular style={{ marginBottom: 10 }}>
+            <Item regular style={{ marginBottom: 10, marginTop: 10, borderColor: 'gray', borderWidth: 1 }}>
               <Input
                 multiline={true}
-                style={{ height: 300, borderColor: 'gray', borderWidth: 1, marginTop: 10 }}
+                onChange={text => this.observeMentions(text)}
+                style={{ height: 300, borderWidth: 0}}
+                value={this.state.text}
                 placeholder='post some stuff here about gihub users' />
             </Item>
             <Button
@@ -32,7 +41,7 @@ class Post extends Component {
               block
               style={{ marginBottom: 10 }}
               onPress={() => alert('yea')}>
-              <Text>Post</Text>
+              <Text>post it!</Text>
             </Button>
           </Form>
         </Content>
