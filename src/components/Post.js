@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { Container, Text, Header, Content, Input, Spinner, Button, Item, Form, Label } from 'native-base';
+import { Container, ActionSheet, Text, Header, Content, Input, Spinner, Button, Item, Form, Label } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../actions';
+
+const DESTRUCTIVE_INDEX = 3;
+const CANCEL_INDEX = 4;
+const BUTTONS = ["Option 0", "Option 1", "Option 2", "Delete", "Cancel"];
 
 
 class Post extends Component {
@@ -13,11 +17,22 @@ class Post extends Component {
       this.props.fetchUsers();
     }
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.text) {
-      console.log(this.state.text)
+  textChecker(text) {
+    if (text.indexOf('@') >= 0 ) {
+      ActionSheet.show(
+        {
+          options: BUTTONS,
+          cancelButtonIndex: CANCEL_INDEX,
+          destructiveButtonIndex: DESTRUCTIVE_INDEX,
+          title: "Testing ActionSheet"
+        },
+        buttonIndex => {
+          console.log('user fetched')
+          //this.setState({ text: ... });
+        }
+      )
     }
-  }
+  } 
   
 
 render() {
@@ -32,7 +47,7 @@ render() {
           <Item regular style={{ marginBottom: 10, marginTop: 10, borderColor: 'gray', borderWidth: 1 }}>
             <Input
               multiline={true}
-              onChangeText={text => this.setState({text})}
+              onChangeText={text => this.setState({text}, this.textChecker(text))}
               style={{ height: 300, borderWidth: 0 }}
               //value={this.state.text}
               placeholder='post some stuff here about gihub users' />

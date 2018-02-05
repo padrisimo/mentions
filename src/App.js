@@ -7,6 +7,7 @@ import reduxThunk from 'redux-thunk';
 import { logger } from 'redux-logger';
 import reducers from './reducers';
 
+import { Root } from 'native-base';
 import getTheme from '../native-base-theme/components';
 import custom from '../native-base-theme/variables/custom';
 
@@ -18,7 +19,9 @@ export default class App extends Component {
     return (
       <Provider store={store} >
         <StyleProvider style={getTheme(custom)}>
-          <AppNavigator />
+          <Root>
+            <AppNavigator />
+          </Root>
         </StyleProvider>
       </Provider>
     );
