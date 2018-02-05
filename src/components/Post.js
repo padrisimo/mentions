@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Text, Header, Content, Input, Button, Item, Form, Label } from 'native-base';
+import { Container, Text, Header, Content, Input, Spinner, Button, Item, Form, Label } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../actions';
@@ -7,13 +7,19 @@ import { fetchUsers } from '../actions';
 
 class Post extends Component {
   componentWillMount = () => {
-    this.props.fetchUsers();
+    if (!this.props.isfetched) {
+      this.props.fetchUsers();
+    }
   }
-  
+
   render() {
+    if (!this.props.isfetched) {
+      return <Spinner />
+    }
+
     return (
       <Container>
-        <Content style={{ marginLeft: 10, marginRight: 10}}>
+        <Content style={{ marginLeft: 10, marginRight: 10 }}>
           <Form>
             <Item regular style={{ marginBottom: 10 }}>
               <Input
@@ -36,7 +42,7 @@ class Post extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  feed: state.users.users,
+  usersFeed: state.users.users,
   isfetched: state.users.isfetched
 });
 
