@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import { Container, Text, Header, Content, Input, Button, Item, Form, Label } from 'native-base';
 import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import { fetchUsers } from '../actions';
 
-export default class Post extends Component {
+
+class Post extends Component {
+  componentWillMount = () => {
+    this.props.fetchUsers();
+  }
+  
   render() {
     return (
       <Container>
@@ -27,3 +34,10 @@ export default class Post extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  feed: state.users.users,
+  isfetched: state.users.isfetched
+});
+
+export default connect(mapStateToProps, { fetchUsers })(Post);
