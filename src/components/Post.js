@@ -26,8 +26,7 @@ class Post extends Component {
             title: "Github Users"
           },
           buttonIndex => {
-            console.log(buttonIndex)
-            //this.setState({ text: ... });
+            buttonIndex != 0 ? this.setState({ text: text.slice(0,-2) + "@" + BUTTONS[buttonIndex] }) : null ;
           }
         )
     }
@@ -48,7 +47,7 @@ class Post extends Component {
                 multiline={true}
                 onChangeText={text => this.setState({ text }, this.textChecker(text))}
                 style={{ height: 300, borderWidth: 0 }}
-                //value={this.state.text}
+                value={this.state.text}
                 placeholder='post some stuff here about gihub users' />
             </Item>
             <Button
